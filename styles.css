@@ -6,6 +6,8 @@
 .hero-chip,.mission-item{font-family:inherit;color:var(--ink)}
 .hero-chip{cursor:pointer}
 .mission-item{cursor:pointer}
+.party-hp-text{display:block;margin-top:5px;color:#617b76;font-size:9px;font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.party-card.active .party-hp-text{color:#b15b42;font-weight:800}
 @media(max-width:700px){.topbar{height:70px;padding:0 18px}.top-actions .status-dot{display:none}.control-room{padding:28px 18px}.intro-copy h2{font-size:40px}.mini-stats{gap:22px}.mission-list{grid-template-columns:repeat(3,1fr)}.mission-item:nth-child(n+4){display:none}.launch-row{align-items:flex-end;gap:14px;flex-direction:column}.launch-note{line-height:2}.game-view{padding:12px}.game-layout{display:flex;flex-direction:column}.canvas-wrap{order:1;min-height:390px}.canvas-wrap canvas{min-height:390px}.hud-left{order:2;display:grid;grid-template-columns:1fr 1fr;gap:12px}.toolbox{margin:0;padding:0;border:0}.hud-right{order:3;display:block}.game-bottom{gap:9px;align-items:flex-start;flex-direction:column}.roster{gap:5px}.hero-chip{padding:9px 5px}.hero-chip small{display:none}.hero-chip .hero-face{font-size:22px}}
 
 .canvas-wrap canvas{cursor:crosshair;touch-action:none}

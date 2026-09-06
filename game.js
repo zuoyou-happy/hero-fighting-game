@@ -1,9 +1,9 @@
 const levels=[
-  {name:'赤焰沙海',short:'沙漠',emoji:'🏜️',sky:'#ed9d65',ground:'#c4774e',accent:'#ffd26b',enemy:'砂岩暴龙',type:'BOSS',weak:'腹部核心',hp:850,diff:'入门'},
-  {name:'亚马逊秘境',short:'雨林',emoji:'🌿',sky:'#4d9b7a',ground:'#245e55',accent:'#9ce49a',enemy:'藤蔓棘龙',type:'ELITE',weak:'背部花冠',hp:1180,diff:'进阶'},
-  {name:'深蓝回廊',short:'大海',emoji:'🌊',sky:'#287ea1',ground:'#16495f',accent:'#77d6e8',enemy:'潮汐沧龙',type:'ELITE',weak:'鳃部晶核',hp:1500,diff:'挑战'},
-  {name:'云端雪岭',short:'雪山',emoji:'🏔️',sky:'#7197b8',ground:'#3b5977',accent:'#d8f0f3',enemy:'冰脊霸王龙',type:'MYTHIC',weak:'头冠裂隙',hp:1900,diff:'困难'},
-  {name:'时空遗迹',short:'终局',emoji:'🌀',sky:'#73578d',ground:'#352d4d',accent:'#f0c778',enemy:'远古暴君',type:'FINAL',weak:'胸口时核',hp:2500,diff:'终极'},
+  {name:'赤焰沙海',short:'沙漠',emoji:'🏜️',sky:'#ed9d65',ground:'#c4774e',accent:'#ffd26b',enemy:'砂岩暴龙',type:'BOSS',weak:'腹部核心',hp:1600,diff:'入门'},
+  {name:'亚马逊秘境',short:'雨林',emoji:'🌿',sky:'#4d9b7a',ground:'#245e55',accent:'#9ce49a',enemy:'藤蔓棘龙',type:'ELITE',weak:'背部花冠',hp:2400,diff:'进阶'},
+  {name:'深蓝回廊',short:'大海',emoji:'🌊',sky:'#287ea1',ground:'#16495f',accent:'#77d6e8',enemy:'潮汐沧龙',type:'ELITE',weak:'鳃部晶核',hp:3200,diff:'挑战'},
+  {name:'云端雪岭',short:'雪山',emoji:'🏔️',sky:'#7197b8',ground:'#3b5977',accent:'#d8f0f3',enemy:'冰脊霸王龙',type:'MYTHIC',weak:'头冠裂隙',hp:4200,diff:'困难'},
+  {name:'时空遗迹',short:'终局',emoji:'🌀',sky:'#73578d',ground:'#352d4d',accent:'#f0c778',enemy:'远古暴君',type:'FINAL',weak:'胸口时核',hp:5600,diff:'终极'},
 ];
 const heroes=[{name:'小飞',role:'空袭先锋',face:'🛩️',color:'#087f83',tool:'飞行背包',move:'降龙十八掌'},{name:'天天',role:'高空侦察',face:'🚁',color:'#b86b0b',tool:'救援钩爪',move:'独孤九剑'},{name:'阿奇',role:'地面指挥',face:'🐶',color:'#b83b27',tool:'汪汪盾牌',move:'乾坤大挪移'}];
 const drops=[{name:'能量包',icon:'⚡',kind:'energy'},{name:'血包',icon:'✚',kind:'heal'},{name:'飞侠导弹',icon:'🚀',kind:'bomb'},{name:'冰晶护盾',icon:'❄️',kind:'shield'}];
@@ -52,7 +52,9 @@ if(location.hash){const m=location.hash.match(/mission=(\d+)/);if(m){state.level
 const baseAttack=attack,baseTeamCombo=teamCombo,baseEnemyAttack=enemyAttack,baseCollectDrop=collectDrop,baseCompleteLevel=completeLevel,baseEndGame=endGame;
 attack=function(special){baseAttack(special);};
 teamCombo=function(){baseTeamCombo();};
-enemyAttack=function(){state.enemyAction=20;baseEnemyAttack();};
+enemyAttack=function(){state.enemyAction=20;baseEnemyAttack();if(state.party.length&&state.party.every(p=>!p.alive||p.hp<=0)){setTimeout(()=>endGame(false),260);}};
 collectDrop=function(drop){baseCollectDrop(drop);audio.play('collect');};
 completeLevel=function(){audio.play('clear');baseCompleteLevel();};
 endGame=function(win){audio.play('fail');baseEndGame(win);};
+const baseUpdateHud=updateHud;
+updateHud=function(){baseUpdateHud();document.querySelectorAll('.party-card').forEach((card,i)=>{const p=state.party[i];if(!p)return;let hp=card.querySelector('.party-hp-text');if(!hp){hp=document.createElement('small');hp.className='party-hp-text';const track=card.querySelector('.hp-track');track?.insertAdjacentElement('afterend',hp);}hp.textContent=`${Math.ceil(p.hp)} / ${p.max} HP`;});};
