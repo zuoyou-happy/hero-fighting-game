@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>超级飞侠 × 汪汪队：恐龙突围</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <div class="brand-mark">⚡</div>
+          <div>
+            <div class="eyebrow">SKY & RESCUE OPERATIONS</div>
+            <h1>恐龙突围 <span>战术联动</span></h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <span class="status-dot"><i></i> 本地试玩版</span>
+          <button class="ghost-btn" id="shareTop">↗ 分享试玩</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="control-room" id="lobbyView">
+          <div class="intro-panel">
+            <div class="intro-copy">
+              <p class="kicker">MISSION 01–05 / CO-OP CAMPAIGN</p>
+              <h2>把天空、海洋与<br /><strong>远古巨兽</strong>放进同一场救援。</h2>
+              <p class="intro-text">五个战区逐步升级，单人掌控一名王牌，或呼叫完整救援小队。拾取装备，连携金庸招式，守住撤离信标。</p>
+              <div class="mini-stats">
+                <div><b>05</b><span>战区</span></div>
+                <div><b>12</b><span>可用招式</span></div>
+                <div><b>∞</b><span>随机掉落</span></div>
+              </div>
+            </div>
+            <div class="radar-card">
+              <div class="radar-grid"></div>
+              <div class="radar-ring ring-a"></div><div class="radar-ring ring-b"></div>
+              <div class="radar-sweep"></div><div class="radar-ping ping-a"></div><div class="radar-ping ping-b"></div>
+              <div class="radar-label">RESCUE<br /><b>BEACON</b></div>
+              <div class="radar-caption">当前威胁扫描中<br /><strong id="radarThreat">T-REX / 02</strong></div>
+            </div>
+          </div>
+
+          <div class="lobby-grid">
+            <section class="panel mode-panel">
+              <div class="panel-heading"><div><p class="section-label">01 / 队形</p><h3>选择出动方式</h3></div><span class="panel-index">MODE</span></div>
+              <div class="mode-switch" role="tablist">
+                <button class="mode-card active" data-mode="solo"><span class="mode-icon">◉</span><span><b>单人王牌</b><small>一名队员 · 更高机动</small></span><em>SOLO</em></button>
+                <button class="mode-card" data-mode="squad"><span class="mode-icon">◎</span><span><b>全员协作</b><small>三名队员 · 可切换支援</small></span><em>CO-OP</em></button>
+              </div>
+              <div class="roster" id="roster"></div>
+            </section>
+
+            <section class="panel mission-panel">
+              <div class="panel-heading"><div><p class="section-label">02 / 航线</p><h3>选择救援战区</h3></div><span class="panel-index">ROUTE</span></div>
+              <div class="mission-list" id="missionList"></div>
+              <div class="mission-tip"><span>⌁</span><span>每关会生成不同掉落，击败首领后解锁下一航线。</span></div>
+            </section>
+          </div>
+
+          <div class="launch-row">
+            <div class="launch-note"><span class="keycap">WASD</span> 移动 <span class="keycap">J</span> 普攻 <span class="keycap">K</span> 绝技 <span class="keycap">L</span> 切换队员 <span class="keycap">SPACE</span> 合击</div>
+            <button class="launch-btn" id="launchBtn"><span>开始任务</span><b>→</b></button>
+          </div>
+        </section>
+
+        <section class="game-view hidden" id="gameView">
+          <div class="game-topline"><button class="back-btn" id="backLobby">← 返回任务板</button><div class="live-title"><span class="live-dot"></span><span id="levelLabel">01</span><b id="levelName">赤焰沙海</b></div><div class="game-actions"><button class="icon-btn" id="soundToggle" title="关闭声效">♫</button><button class="icon-btn" id="pauseBtn" title="暂停">Ⅱ</button><button class="share-small" id="shareGame">↗</button></div></div>
+          <div class="game-layout">
+            <aside class="hud-left"><div class="hud-label">RESCUE TEAM</div><div id="partyHud"></div><div class="toolbox"><div class="hud-label">装备仓</div><div id="toolHud" class="tool-grid"></div></div></aside>
+            <div class="canvas-wrap"><canvas id="gameCanvas" width="1100" height="600"></canvas><div class="canvas-vignette"></div><div class="damage-flash" id="damageFlash"></div><div class="toast" id="toast"></div><div class="boss-banner hidden" id="bossBanner"><span>WARNING</span><b>远古暴君已现身</b></div><div class="mouse-controls" aria-label="鼠标操作"><button class="move-control" data-control="left" title="向左移动">←</button><button class="move-control" data-control="right" title="向右移动">→</button><button data-control="jump" title="跳跃">↟<small>跳跃</small></button><button data-control="attack" title="普通攻击">✦<small>攻击</small></button><button data-control="skill" title="释放绝技">✹<small>绝技</small></button><button class="combo-control" data-control="combo" title="全员合击">⚡<small>合击</small></button></div></div>
+            <aside class="hud-right"><div class="hud-label">THREAT ANALYSIS</div><div class="enemy-card"><div class="enemy-meta"><span class="enemy-type" id="enemyType">BOSS</span><span id="enemyLevel">LV. 01</span></div><h3 id="enemyName">砂岩暴龙</h3><div class="hp-track enemy-track"><div id="enemyHp" class="hp-fill enemy-fill"></div></div><div class="hp-numbers"><span id="enemyHpText">1000 / 1000</span><span>HP</span></div><div class="enemy-weakness"><span>弱点</span><b id="enemyWeakness">腹部核心</b></div></div><div class="combo-card"><div class="hud-label">COMBO LINK</div><div class="combo-meter"><div id="comboFill"></div></div><div class="combo-copy"><b id="comboCount">0</b><span>连击</span><small id="comboHint">命中敌人积攒能量</small></div></div><div class="combat-log" id="combatLog"></div></aside>
+          </div>
+          <div class="game-bottom"><div class="control-hint"><span class="mouse-hint">鼠标点击画布移动 · 按住左右键连续移动 · 长按↟悬停空战</span><span class="keycap">L</span> 换位 <span class="keycap">SPACE</span> 合击</div><div class="mission-progress"><span>任务进度</span><div><i id="progressFill"></i></div><b id="progressText">0%</b></div></div>
+        </section>
+      </main>
+      <div class="modal hidden" id="resultModal"><div class="result-card"><div class="result-badge" id="resultBadge">CLEAR</div><p class="section-label">MISSION REPORT</p><h2 id="resultTitle">战区已清空</h2><p id="resultCopy">救援信标重新上线，下一条航线已解锁。</p><div class="result-stats"><div><b id="resultTime">00:00</b><span>用时</span></div><div><b id="resultDrops">03</b><span>拾取</span></div><div><b id="resultCombo">12</b><span>最高连击</span></div></div><div class="result-actions"><button class="ghost-btn" id="resultLobby">返回任务板</button><button class="launch-btn small" id="nextMission">下一关 <b>→</b></button></div></div></div>
+    </div>
+    <script src="game.js"></script>
+  </body>
+</html>
